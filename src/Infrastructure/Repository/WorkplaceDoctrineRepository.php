@@ -53,4 +53,9 @@ class WorkplaceDoctrineRepository extends ServiceEntityRepository implements Wor
     {
         return $this->findAll();
     }
+
+    public function getWorkplace(int $workplaceId): ?Workplace
+    {
+        return $this->findOneBy(['id' => $workplaceId]);
+    }
 }

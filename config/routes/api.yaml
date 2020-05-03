@@ -1,0 +1,6 @@
+workplace:
+  path: /workplace
+  methods: [get]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\WorkplaceListAction
+
+
