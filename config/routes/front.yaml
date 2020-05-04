@@ -1,0 +1,4 @@
+reservation:
+  path: /reservation
+  methods: [get]
+  controller: App\Infrastructure\Interfaces\HttpPort\Action\ReservationListAction
