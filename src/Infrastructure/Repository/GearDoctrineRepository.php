@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Entity\Gear;
+use App\Domain\Repository\Gean;
 use App\Domain\Repository\GearRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -48,4 +49,30 @@ class GearDoctrineRepository extends ServiceEntityRepository implements GearRepo
         ;
     }
     */
+    public function createGear(Gear $gear): Gear
+    {
+        $this->_em->persist($gear);
+        $this->_em->flush();
+
+        return $gear;
+    }
+
+    public function updateGear(Gear $gear): Gear
+    {
+        $this->_em->persist($gear);
+        $this->_em->flush();
+
+        return $gear;
+    }
+
+    public function deleteGear(Gear $gear): void
+    {
+        $this->_em->remove($gear);
+        $this->_em->flush();
+    }
+
+    public function getGear(int $gearId): ?Gear
+    {
+        return $this->find($gearId);
+    }
 }

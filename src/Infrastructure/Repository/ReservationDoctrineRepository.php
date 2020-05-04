@@ -48,4 +48,17 @@ class ReservationDoctrineRepository extends ServiceEntityRepository implements R
         ;
     }
     */
+
+    public function getList(): array
+    {
+        return $this->findAll();
+    }
+
+    public function createReservation(Reservation $reservation): ?Reservation
+    {
+        $this->_em->persist($reservation);
+        $this->_em->flush();
+
+        return $reservation;
+    }
 }

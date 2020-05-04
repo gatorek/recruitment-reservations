@@ -31,12 +31,12 @@ class Reservation
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_from;
+    private $dateFrom;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_to;
+    private $dateTo;
 
     public function getId(): ?int
     {
@@ -69,24 +69,24 @@ class Reservation
 
     public function getDateFrom(): ?\DateTimeInterface
     {
-        return $this->date_from;
+        return $this->dateFrom;
     }
 
-    public function setDateFrom(\DateTimeInterface $date_from): self
+    public function setDateFrom(\DateTimeInterface $dateFrom): self
     {
-        $this->date_from = $date_from;
+        $this->dateFrom = $dateFrom;
 
         return $this;
     }
 
     public function getDateTo(): ?\DateTimeInterface
     {
-        return $this->date_to;
+        return $this->dateTo;
     }
 
-    public function setDateTo(\DateTimeInterface $date_to): self
+    public function setDateTo(\DateTimeInterface $dateTo): self
     {
-        $this->date_to = $date_to;
+        $this->dateTo = $dateTo;
 
         return $this;
     }

@@ -48,4 +48,8 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
         ;
     }
     */
+    public function getById(int $userId): ?User
+    {
+        return $this->find($userId);
+    }
 }
