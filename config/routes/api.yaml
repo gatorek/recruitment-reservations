@@ -3,4 +3,51 @@ workplace:
   methods: [get]
   controller: App\Infrastructure\Interfaces\ApiPort\Action\WorkplaceListAction
 
+reservation:
+  path: /reservation
+  methods: [get]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\ReservationListAction
 
+user:
+  path: /user/{userId}
+  methods: [get]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\UserGetAction
+  requirements:
+    userId: '\d+'
+
+gear:
+  path: /gear/{gearId}
+  methods: [get]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\GearGetAction
+  requirements:
+    gearId: '\d+'
+
+reservation.create:
+  path: /reservation
+  methods: [put]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\ReservationCreateAction
+
+gear.create:
+  path: /gear
+  methods: [put]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\GearCreateAction
+
+gear.update:
+  path: /gear
+  methods: [post]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\GearUpdateAction
+
+gear.delete:
+  path: /gear/{gearId}
+  methods: [delete]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\GearDeleteAction
+  requirements:
+    gearId: '\d+'
+
+gear.assign:
+  path: /gear/{gearId}/assign/{workplaceId}
+  methods: [post]
+  controller: App\Infrastructure\Interfaces\ApiPort\Action\GearAssignAction
+  requirements:
+    gearId: '\d+'
+    workplaceId: '\d+'
