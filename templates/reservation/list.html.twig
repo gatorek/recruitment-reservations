@@ -52,28 +52,80 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.3/moment-with-locales.min.js"></script>
     <script>
-        $('#form-submit').click(() => {
+        function isValid(data) {
+            if (! data.userId){
+                alert('Nie wybrano użytkownika');
+                return false;
+            }
+            if (! data.workplaceId){
+                alert('Nie wybrano miejsca pracy');
+                return false;
+            }
+            if (! data.dateFrom){
+                alert('Brak daty / godziny rozpoczęcia rezerwacji');
+                return false;
+            }
+            if (! data.dateTo){
+                alert('Brak daty / godziny zakończenia rezerwacji');
+                return false;
+            }
+            let dateFrom = moment(data.dateFrom, 'YYYY-MM-DD hh:mm');
+            let dateTo = moment(data.dateTo, 'YYYY-MM-DD hh:mm');
+            if (! dateFrom.isBefore(dateTo)) {
+                alert('Rezerwację należy rozpocząć przed datą zakończenia');
+                return false;
+            }
+            if (dateFrom.isBefore(moment())) {
+                alert('Nie można zarezerwować terminu w przeszłości');
+                return false;
+            }
+            let reservations = [];
             $.ajax({
-                url: "{{ url('reservation.create.api') }}",
-                data: JSON.stringify({
-                    userId: $('#reservation-user').val(),
-                    workplaceId: $('#reservation-workplace').val(),
-                    dateFrom: $('#reservation-date-from').val(),
-                    dateTo: $('#reservation-date-to').val()
-                }),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                method: "PUT",
-                success: () => {
-                    $root.$refs.reservations.update();
-                    $('#reservation-form')[0].reset();
-                    $('#reservation-form-modal').modal('hide');
-                },
-                error: () => {
-                    alert('Nie udało się zapisać rezerwacji. Sprawdź dane i spróbuj ponownie.')
+                url: "{{ url('reservation.api') }}",
+                async: false,
+                success: (data) => {
+                    reservations = data;
                 }
             });
+            for (i in reservations) {
+                if (reservations[i].workplace.id == data.workplaceId && (
+                        moment(reservations[i].dateFrom).isBetween(dateFrom, dateTo)
+                        || moment(reservations[i].dateTo).isBetween(dateFrom, dateTo)
+                        || dateFrom.isBetween(moment(reservations[i].dateFrom), moment(reservations[i].dateTo))
+                        || dateTo.isBetween(moment(reservations[i].dateFrom), moment(reservations[i].dateTo))))
+                {
+                    alert('Termin już zajęty');
+                    return false;
+                }
+            }
+            return true;
+        }
+        $('#form-submit').click(() => {
+            var formData = {
+                userId: $('#reservation-user').val(),
+                workplaceId: $('#reservation-workplace').val(),
+                dateFrom: $('#reservation-date-from').val(),
+                dateTo: $('#reservation-date-to').val()
+            };
+            if (isValid(formData)) {
+                $.ajax({
+                    url: "{{ url('reservation.create.api') }}",
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    method: "PUT",
+                    success: () => {
+                        $root.$refs.reservations.update();
+                        $('#reservation-form')[0].reset();
+                        $('#reservation-form-modal').modal('hide');
+                    },
+                    error: () => {
+                        alert('Nie udało się zapisać rezerwacji. Sprawdź dane i spróbuj ponownie.')
+                    }
+                });
+            }
         });
     </script>
 {% endblock %}
