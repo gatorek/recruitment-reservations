@@ -1,25 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="box box-warning">
-        <div class="box-body">
-            <table id="triage-card-list" class="table table-bordered table-hover">
-                <tr>
-                    <th>Id</th>
-                    <th>Użytkownik</th>
-                    <th>Miejsce pracy</th>
-                    <th>Od</th>
-                    <th>Do</th>
-                </tr>
-                {% for reservation in reservations %}
-                    <tr>
-                        <td>{{ reservation.id }}</td>
-                        <td>{{ reservation.user.name }} {{ reservation.user.surname }}</td>
-                        <td>{{ reservation.workplace.name }}</td>
-                        <td>{{ reservation.dateFrom|date('Y-m-d H:i:s') }}</td>
-                        <td>{{ reservation.dateTo|date('Y-m-d H:i:s') }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+        <Reservations list_url="{{ url('reservation.api') }}"></Reservations>
     </div>
 {% endblock %}
+

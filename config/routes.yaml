@@ -1,6 +1,7 @@
 api:
   resource: routes/api.yaml
-  prefix: /api/v1
+  prefix:
+    api: /api/v1
 
 front:
   resource: routes/front.yaml
