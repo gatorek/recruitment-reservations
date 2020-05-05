@@ -24,6 +24,7 @@
                                 <option value="{{ workplace.id }}">{{ workplace.name }}</option>
                             {% endfor %}
                         </select>
+                        <Gear list_url="{{ url('workplace.api') }}" ref="gear"></Gear>
                         <label for="reservation-date-from">Czas rezerwacji od:</label>
                         <input id="reservation-date-from" name="dateFrom" class="form-control">
                         <label for="reservation-date-to">Czas rezerwacji do:</label>
@@ -58,6 +59,14 @@
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.3/moment-with-locales.min.js"></script>
+    <script>
+        function displayWorkspaceGear() {
+            $root.$refs.gear.select($('#reservation-workplace').val());
+        }
+        $('#reservation-workplace').change(() => {
+            displayWorkspaceGear();
+        })
+    </script>
     <script>
         $('#reservation-date-from').datetimepicker({format: 'Y-m-d H:i', mask: true})
         $('#reservation-date-to').datetimepicker({format: 'Y-m-d H:i', mask: true})

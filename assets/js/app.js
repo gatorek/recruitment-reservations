@@ -13,6 +13,7 @@ import Vue from 'vue';
 import moment from 'moment';
 import Reservations from './components/Reservations';
 import Workplaces from './components/Workplaces';
+import Gear from './components/Gear';
 
 Vue.filter('time', function(value) {
     if (value) {
@@ -22,7 +23,7 @@ Vue.filter('time', function(value) {
 
 $root = new Vue({
     el: '#content-main',
-    components: {Reservations, Workplaces}
+    components: {Reservations, Workplaces, Gear}
 });
 
 export default { $root };
