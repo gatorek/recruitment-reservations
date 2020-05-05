@@ -32,12 +32,17 @@
             }
         },
         mounted: function() {
-            $.ajax({
-                url: this.list_url,
-                success: (data) => {
-                    this.reservations = data;
-                }
-            });
+            this.update();
+        },
+        methods: {
+            update: function(){
+                $.ajax({
+                    url: this.list_url,
+                    success: (data) => {
+                        this.reservations = data;
+                    }
+                });
+            }
         }
     }
 </script>

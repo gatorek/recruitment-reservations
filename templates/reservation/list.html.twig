@@ -1,7 +1,79 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="box box-warning">
-        <Reservations list_url="{{ url('reservation.api') }}"></Reservations>
+
+    <div class="modal" tabindex="-1" role="dialog" id="reservation-form-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dodawanie rezerwacji</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="reservation-form">
+                        <label for="reservation-user">Wybierz użytkownika</label>
+                        <select id="reservation-user" class="form-control select2">
+                            {% for user in users %}
+                                <option value="{{ user.id }}">{{ user.name }} {{  user.surname }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="reservation-workplace">Wybierz miejsce pracy</label>
+                        <select id="reservation-workplace" class="form-control select2">
+                            {% for workplace in workplaces %}
+                                <option value="{{ workplace.id }}">{{ workplace.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="reservation-date-from">Czas rezerwacji od:</label>
+                        <input id="reservation-date-from" name="dateFrom">
+                        <label for="reservation-date-to">Czas rezerwacji do:</label>
+                        <input id="reservation-date-to" name="dateTo">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="form-submit" type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reservation-form-modal">
+                Dodaj rezerwację
+            </button>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <Reservations list_url="{{ url('reservation.api') }}" ref="reservations"></Reservations>
+        </div>
     </div>
 {% endblock %}
 
+{% block javascripts %}
+    <script>
+        $('#form-submit').click(() => {
+            $.ajax({
+                url: "{{ url('reservation.create.api') }}",
+                data: JSON.stringify({
+                    userId: $('#reservation-user').val(),
+                    workplaceId: $('#reservation-workplace').val(),
+                    dateFrom: $('#reservation-date-from').val(),
+                    dateTo: $('#reservation-date-to').val()
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                method: "PUT",
+                success: () => {
+                    $root.$refs.reservations.update();
+                    $('#reservation-form')[0].reset();
+                    $('#reservation-form-modal').modal('hide');
+                },
+                error: () => {
+                    alert('Nie udało się zapisać rezerwacji. Sprawdź dane i spróbuj ponownie.')
+                }
+            });
+        });
+    </script>
+{% endblock %}

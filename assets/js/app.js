@@ -18,7 +18,7 @@ Vue.filter('time', function(value) {
     }
 });
 
-let $root = new Vue({
+$root = new Vue({
     el: '#content-main',
     components: {Reservations}
 });
