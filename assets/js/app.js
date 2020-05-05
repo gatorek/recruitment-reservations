@@ -9,9 +9,8 @@
 import '../css/app.css';
 import '../css/global.scss';
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-
 // Bootstrap
-import $ from 'jquery';
+const $ = require('jquery');
+global.$ = global.jQuery = $;
 require('bootstrap');
 
