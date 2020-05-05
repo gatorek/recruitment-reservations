@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row mt-2">
+        <div class="col">
+            <Workplaces list_url="{{ url('workplace.api') }}" ref="workplaces"></Workplaces>
+        </div>
+    </div>
+
+{% endblock %}

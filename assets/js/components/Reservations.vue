@@ -2,7 +2,7 @@
     <div id="wraps">
         <div class="box box-warning">
             <div class="box-body">
-                <table id="triage-card-list" class="table table-bordered table-hover">
+                <table id="reservation-list" class="table table-bordered table-hover">
                     <tr>
                         <th>Id</th>
                         <th>Użytkownik</th>

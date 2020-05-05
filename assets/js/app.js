@@ -11,6 +11,7 @@ require('bootstrap');
 import Vue from 'vue';
 import moment from 'moment'
 import Reservations from './components/Reservations'
+import Workplaces from './components/Workplaces'
 
 Vue.filter('time', function(value) {
     if (value) {
@@ -20,7 +21,7 @@ Vue.filter('time', function(value) {
 
 $root = new Vue({
     el: '#content-main',
-    components: {Reservations}
+    components: {Reservations, Workplaces}
 });
 
 export default { $root };
