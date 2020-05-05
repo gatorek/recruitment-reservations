@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="gear-form">
-                        <input type="hidden" name="id" id="gearId">
+                        <input type="hidden" name="gearId" id="gearId">
                         <input type="hidden" name="workplaceId" id="workplaceId">
                         <div class="form-group">
                             <label for="type">Rodzaj sprzętu</label>
@@ -48,6 +48,7 @@
     </div>
 
     <div class="row mt-2">
+
         <div class="col">
             <Workplaces list_url="{{ url('workplace.api') }}" ref="workplaces"></Workplaces>
         </div>
@@ -57,13 +58,50 @@
 
 {%  block javascripts %}
     <script>
+        $('#workplace-list').on('click', '.delete', function(e) {
+            e.preventDefault();
+            $(this).confirmation('show');
+            $.ajax({
+                url: "{{ url('gear.delete.api', {'gearId': 0}) }}".slice(0, -1) + $(this).data('gear'),
+                method: "DELETE",
+                success: (data) => {
+                    $root.$refs.workplaces.update();
+                },
+                error: () => {
+                    alert('Nie udało się usunąć sprzętu.')
+                }
+            });
+        });
+
         $('#workplace-list').on('click', '.gear-add', function() {
             $('#gear-form-modal').modal('show');
             $('#workplaceId').val($(this).data('workplace'))
         });
+
+        $('#workplace-list').on('click', '.gear-edit', function() {
+            $.ajax({
+                url: "{{ url('gear.api', {'gearId': 0}) }}".slice(0, -1) + $(this).data('gear'),
+                method: "GET",
+                success: (data) => {
+                    $('#gear-type').val(data.type),
+                    $('#gear-model').val(data.model),
+                    $('#gear-name').val(data.name),
+                    $('#gear-year').val(data.year),
+                    $('#gear-price').val(data.price),
+                    $('#gear-description').val(data.description),
+                    $('#workplaceId').val(data.workplace.id),
+                    $('#gearId').val(data.id),
+                    $('#gear-form-modal').modal('show');
+                },
+                error: () => {
+                    alert('Nie udało się otworzyć sprzętu do edycji.')
+                }
+            });
+        });
+
         $('#form-submit').click(() => {
             $.ajax({
-                url: "{{ url('gear.create.api') }}",
+                url: $('#gearId').val() ? "{{ url('gear.update.api') }}" : "{{ url('gear.create.api') }}",
                 data: JSON.stringify({
                     type: $('#gear-type').val(),
                     model: $('#gear-model').val(),
@@ -72,10 +110,11 @@
                     price: $('#gear-price').val(),
                     description: $('#gear-description').val(),
                     workplaceId: $('#workplaceId').val(),
+                    id: $('#gearId').val(),
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                method: "PUT",
+                method: $('#gearId').val() ? "POST" : "PUT",
                 success: () => {
                     $root.$refs.workplaces.update();
                     $('#gear-form')[0].reset();

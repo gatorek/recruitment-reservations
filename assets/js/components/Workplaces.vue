@@ -17,6 +17,7 @@
                             <ul v-for="gear in workplace.gears" v-bind:key="gear.id">
                                 <li>
                                     <button type="button" class="btn btn-primary btn-sm gear-edit" :data-gear="gear.id">Edytuj</button>
+                                    <a class="btn btn-danger btn-sm delete" :data-gear="gear.id" href="javascript:console.log(this);" rel="nofollow">Delete</a>
                                     {{ gear.type }}: {{ gear.name }}
                                 </li>
                             </ul>
@@ -39,6 +40,10 @@
         },
         mounted: function() {
             this.update();
+            this.confirmation();
+        },
+        updated: function() {
+            this.confirmation();
         },
         methods: {
             update: function(){
@@ -47,6 +52,12 @@
                     success: (data) => {
                         this.workplaces = data;
                     }
+                });
+            },
+            confirmation: function(){
+                $('.delete').confirmation({
+                    rootSelector: '.delete',
+                    title: 'na pewno?'
                 });
             }
         }

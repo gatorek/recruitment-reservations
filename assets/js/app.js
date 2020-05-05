@@ -6,6 +6,7 @@ import '../css/global.scss';
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 require('bootstrap');
+require('bootstrap-confirmation2');
 
 // VueJS
 import Vue from 'vue';
