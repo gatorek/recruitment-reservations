@@ -10,9 +10,9 @@ require('bootstrap-confirmation2');
 
 // VueJS
 import Vue from 'vue';
-import moment from 'moment'
-import Reservations from './components/Reservations'
-import Workplaces from './components/Workplaces'
+import moment from 'moment';
+import Reservations from './components/Reservations';
+import Workplaces from './components/Workplaces';
 
 Vue.filter('time', function(value) {
     if (value) {

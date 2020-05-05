@@ -51,9 +51,16 @@
     </div>
 {% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+{% endblock %}
+
 {% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.3/moment-with-locales.min.js"></script>
     <script>
+        $('#reservation-date-from').datetimepicker({format: 'Y-m-d H:i', mask: true})
+        $('#reservation-date-to').datetimepicker({format: 'Y-m-d H:i', mask: true})
         function isValid(data) {
             if (! data.userId){
                 alert('Nie wybrano użytkownika');
