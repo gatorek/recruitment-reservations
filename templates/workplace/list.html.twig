@@ -47,16 +47,19 @@
         </div>
     </div>
 
-    <div class="row mt-2">
+    <div class="row m-2">
 
         <div class="col">
-            <Workplaces list_url="{{ url('workplace.api') }}" ref="workplaces"></Workplaces>
+            <Workplaces list_url="{{ url('workplace.api') }}"
+                        assign_url="{{ url('gear.assign.api', {'gearId': 0, 'workplaceId': 0}) }}"
+                        ref="workplaces"></Workplaces>
         </div>
     </div>
 
 {% endblock %}
 
 {%  block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
     <script>
         $('#workplace-list').on('click', '.delete', function(e) {
             e.preventDefault();
