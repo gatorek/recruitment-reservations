@@ -15,8 +15,12 @@
                         <td>{{ workplace.description }}</td>
                         <td>
                             <ul v-for="gear in workplace.gears" v-bind:key="gear.id">
-                                <li>{{ gear.type }}: {{ gear.name }}</li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-sm gear-edit" :data-gear="gear.id">Edytuj</button>
+                                    {{ gear.type }}: {{ gear.name }}
+                                </li>
                             </ul>
+                            <button type="button" class="btn btn-primary btn-sm gear-add mt-2" :data-workplace="workplace.id">Dodaj sprzęt</button>
                         </td>
                     </tr>
                 </table>
@@ -41,7 +45,6 @@
                 $.ajax({
                     url: this.list_url,
                     success: (data) => {
-                        console.log(data);
                         this.workplaces = data;
                     }
                 });

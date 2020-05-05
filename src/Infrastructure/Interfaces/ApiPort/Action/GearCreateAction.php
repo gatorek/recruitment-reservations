@@ -18,7 +18,7 @@ class GearCreateAction extends AbstractAction
             $data['year'],
             $data['price'],
             $data['description'],
-            $data['workplaceId']
+            (int) $data['workplaceId']
         ));
 
         return $this->json($result);

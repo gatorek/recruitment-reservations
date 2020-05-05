@@ -1,9 +1,91 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <div class="modal" tabindex="-1" role="dialog" id="gear-form-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dodawanie sprzętu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="gear-form">
+                        <input type="hidden" name="id" id="gearId">
+                        <input type="hidden" name="workplaceId" id="workplaceId">
+                        <div class="form-group">
+                            <label for="type">Rodzaj sprzętu</label>
+                            <input id="gear-type" name="type" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Model</label>
+                            <input id="gear-model" name="model" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Oznaczenie</label>
+                            <input id="gear-name" name="name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Rok zakupu</label>
+                            <input id="gear-year" name="year" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Wartość</label>
+                            <input id="gear-price" name="price" class="form-control" type="number">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Opis</label>
+                            <textarea id="gear-description" name="description" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="form-submit" type="button" class="btn btn-primary">Zapisz</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row mt-2">
         <div class="col">
             <Workplaces list_url="{{ url('workplace.api') }}" ref="workplaces"></Workplaces>
         </div>
     </div>
 
+{% endblock %}
+
+{%  block javascripts %}
+    <script>
+        $('#workplace-list').on('click', '.gear-add', function() {
+            $('#gear-form-modal').modal('show');
+            $('#workplaceId').val($(this).data('workplace'))
+        });
+        $('#form-submit').click(() => {
+            $.ajax({
+                url: "{{ url('gear.create.api') }}",
+                data: JSON.stringify({
+                    type: $('#gear-type').val(),
+                    model: $('#gear-model').val(),
+                    name: $('#gear-name').val(),
+                    year: $('#gear-year').val(),
+                    price: $('#gear-price').val(),
+                    description: $('#gear-description').val(),
+                    workplaceId: $('#workplaceId').val(),
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                method: "PUT",
+                success: () => {
+                    $root.$refs.workplaces.update();
+                    $('#gear-form')[0].reset();
+                    $('#gear-form-modal').modal('hide');
+                },
+                error: () => {
+                    alert('Nie udało się zapisać sprzętu. Sprawdź dane i spróbuj ponownie.')
+                }
+            });
+        });
+
+    </script>
 {% endblock %}
