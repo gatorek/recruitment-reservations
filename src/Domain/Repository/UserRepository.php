@@ -7,4 +7,6 @@ use App\Domain\Entity\User;
 interface UserRepository
 {
     public function getById(int $userId): ?User;
+
+    public function getList(): array;
 }

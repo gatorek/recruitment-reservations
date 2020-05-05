@@ -52,4 +52,9 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
     {
         return $this->find($userId);
     }
+
+    public function getList(): array
+    {
+        return $this->findAll();
+    }
 }
